@@ -140,11 +140,11 @@ class Phile {
 	 */
 	protected function parse_content($content)
 	{
-		$content = str_replace(substr($content, 0, strpos($content, '*/') + 2), '', $content); // Remove comments and meta
+		// Remove only the first block comment
+		$content = str_replace(substr($content, 0, strpos($content, '*/') + 2), '', $content);
 		$content = str_replace('%base_url%', $this->base_url(), $content);
-		$content = MarkdownExtra::defaultTransform($content);
 
-		return $content;
+		return MarkdownExtra::defaultTransform($content);
 	}
 
 	/**
