@@ -34,17 +34,25 @@ class Phile {
 		$script_url  = (isset($_SERVER['PHP_SELF'])) ? $_SERVER['PHP_SELF'] : '';
 
 		// Get our url path and trim the / of the left and the right
-		if($request_url != $script_url) $url = trim(preg_replace('/'. str_replace('/', '\/', str_replace('index.php', '', $script_url)) .'/', '', $request_url, 1), '/');
+		if($request_url != $script_url) {
+			$url = trim(preg_replace('/'. str_replace('/', '\/', str_replace('index.php', '', $script_url)) .'/', '', $request_url, 1), '/');
+		}
 		$url = preg_replace('/\?.*/', '', $url); // Strip query string
 		$this->run_hooks('request_url', array(&$url));
 
 		// Get the file path
-		if($url) $file = CONTENT_DIR . $url;
-		else $file = CONTENT_DIR .'index';
+		if($url) {
+			$file = CONTENT_DIR . $url;
+		} else {
+			$file = CONTENT_DIR .'index';
+		}
 
 		// Load the file
-		if(is_dir($file)) $file = CONTENT_DIR . $url .'/index'. CONTENT_EXT;
-		else $file .= CONTENT_EXT;
+		if(is_dir($file)) {
+			$file = CONTENT_DIR . $url .'/index'. CONTENT_EXT;
+		} else {
+			$file .= CONTENT_EXT;
+		}
 
 		$this->run_hooks('before_load_content', array(&$file));
 		if(file_exists($file)){
@@ -179,7 +187,9 @@ class Phile {
 			}
 		}
 
-		if(isset($headers['date'])) $headers['date_formatted'] = date($config['date_format'], strtotime($headers['date']));
+		if(isset($headers['date'])) {
+			$headers['date_formatted'] = date($config['date_format'], strtotime($headers['date']));
+		}
 
 		return $headers;
 	}
@@ -205,8 +215,11 @@ class Phile {
 			'excerpt_length' => 50
 			);
 
-		if(is_array($config)) $config = array_merge($defaults, $config);
-		else $config = $defaults;
+		if(is_array($config)) {
+			$config = array_merge($defaults, $config);
+		} else {
+			$config = $defaults;
+		}
 
 		return $config;
 	}
@@ -265,8 +278,11 @@ class Phile {
 			else $sorted_pages[] = $data;
 		}
 
-		if($order == 'desc') krsort($sorted_pages);
-		else ksort($sorted_pages);
+		if($order == 'desc') {
+			krsort($sorted_pages);
+		} else {
+			ksort($sorted_pages);
+		}
 
 		return $sorted_pages;
 	}
@@ -296,12 +312,16 @@ class Phile {
 	protected function base_url()
 	{
 		global $config;
-		if(isset($config['base_url']) && $config['base_url']) return $config['base_url'];
+		if(isset($config['base_url']) && $config['base_url']){
+			return $config['base_url'];
+		}
 
 		$url = '';
 		$request_url = (isset($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : '';
 		$script_url  = (isset($_SERVER['PHP_SELF'])) ? $_SERVER['PHP_SELF'] : '';
-		if($request_url != $script_url) $url = trim(preg_replace('/'. str_replace('/', '\/', str_replace('index.php', '', $script_url)) .'/', '', $request_url, 1), '/');
+		if($request_url != $script_url) {
+			$url = trim(preg_replace('/'. str_replace('/', '\/', str_replace('index.php', '', $script_url)) .'/', '', $request_url, 1), '/');
+		}
 
 		$protocol = $this->get_protocol();
 		return rtrim(str_replace($url, '', $protocol . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']), '/');
@@ -358,7 +378,9 @@ class Phile {
 	{
 		$words = explode(' ',$string);
 		$excerpt = trim(implode(' ', array_splice($words, 0, $word_limit)));
-		if(count($words) > $word_limit) $excerpt .= '&hellip;';
+		if(count($words) > $word_limit) {
+			$excerpt .= '&hellip;';
+		}
 		return $excerpt;
 	}
 
