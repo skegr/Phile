@@ -156,6 +156,8 @@ class Phile {
 	protected function read_file_meta($content)
 	{
 		global $config;
+		// only parse the first comment not the entire file
+		$content = substr($content, 0, strpos($content, "*/") + 2);
 
 		$headers = array(
 			'title'       	=> 'Title',
