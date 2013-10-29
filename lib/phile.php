@@ -86,7 +86,10 @@ class Phile {
 		Twig_Autoloader::register();
 		$loader = new Twig_Loader_Filesystem(THEMES_DIR . $settings['theme']);
 		$twig = new Twig_Environment($loader, $settings['twig_config']);
-		$twig->addExtension(new Twig_Extension_Debug());
+		// only load the extension if we need it
+		if ($settings['twig_config']['debug']) {
+			$twig->addExtension(new Twig_Extension_Debug());
+		}
 		$twig_vars = array(
 			'config' => $settings,
 			'base_dir' => rtrim(ROOT_DIR, '/'),
